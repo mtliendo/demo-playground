@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 export default function DemosPage() {
   const items = getCatalogItems().filter((item) => item.kind === "demo");
   return (
-    <main id="main" className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-      <p className="font-mono text-[12px] tracking-[0.2em] text-accent uppercase">Demos</p>
-      <h1 className="font-display mt-3 text-4xl tracking-tight sm:text-5xl">Runnable experiences</h1>
-      <p className="mt-4 max-w-2xl text-ink-muted">
-        One card per thing a room can do. Related repos stay on the detail page.
+    <main id="main" className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+      <p className="eyebrow">Demos</p>
+      <h1 className="h1 mt-4">Runnable experiences</h1>
+      <p className="mt-5 max-w-xl text-lg leading-8 text-ink-muted">
+        One card per thing a room can do.
       </p>
-      <div className="mt-10">
-        <CatalogPage items={items} lockedType="demo" />
+      <div className="mt-14">
+        <CatalogPage items={items} />
       </div>
     </main>
   );

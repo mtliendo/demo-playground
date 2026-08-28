@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "Auth0 Showcase",
+  name: "Auth0 DevRel Demo Library",
   tagline: "Full apps and agent skills — not hello-world snippets.",
   description:
     "Runnable Auth0 demos and agent skills you can clone, deploy, and take to a booth. Maintained by Auth0 Developer Advocacy.",

@@ -2,9 +2,29 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { isTopic, type Topic } from "./topics";
-import type { CatalogItem, Demo, Skill } from "./types";
+import type { CatalogItem, Demo, Screenshot, Skill } from "./types";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
+const SHOTS_ROOT = path.join(process.cwd(), "public", "shots");
+
+// Filenames are `01-the-game-library.webp`: the prefix orders them, the rest is
+// the caption. Adding a screenshot means dropping a file in, nothing else.
+function screenshotsFor(slug: string): Screenshot[] {
+  const dir = path.join(SHOTS_ROOT, slug);
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((file) => file.endsWith(".webp"))
+    .sort()
+    .map((file) => {
+      const stem = file.replace(/\.webp$/, "").replace(/^\d+-/, "");
+      const words = stem.replace(/-/g, " ");
+      return {
+        src: `/shots/${slug}/${file}`,
+        label: words.charAt(0).toUpperCase() + words.slice(1),
+      };
+    });
+}
 
 function readMdFiles(dir: string) {
   const full = path.join(CONTENT_ROOT, dir);
@@ -63,6 +83,7 @@ function parseDemo(slug: string, data: Record<string, unknown>, body: string): D
       : [],
     seeAlso: asStringArray(data.seeAlso),
     architecture: String(data.architecture ?? "docs/architecture.png"),
+    screenshots: screenshotsFor(slug),
     stack: asStringArray(data.stack),
     experience,
     setup,
@@ -128,6 +149,7 @@ export function getCatalogItems(): CatalogItem[] {
       href: `/demos/${demo.slug}`,
       timeToStandUp: demo.timeToStandUp,
       liveUrl: demo.liveUrl,
+      thumbnail: demo.screenshots[0]?.src,
     }),
   );
   const skills = getSkills().map(

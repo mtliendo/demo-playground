@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Figtree, Roboto_Mono } from "next/font/google";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const robotoMono = Roboto_Mono({
+  variable: "--font-roboto-mono",
   subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -30,11 +27,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
-    >
-      <body className="site-shell min-h-full flex flex-col font-sans">
+    <html lang="en" className={`${figtree.variable} ${robotoMono.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col font-sans">
         <SiteHeader />
         <div className="flex-1">{children}</div>
         <SiteFooter />

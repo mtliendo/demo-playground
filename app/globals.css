@@ -1,25 +1,41 @@
 @import "tailwindcss";
 
+/* Palette sampled from auth0.com — see DESIGN.md §2 */
 :root {
-  --bg: #100e0c;
-  --bg-elevated: #181512;
-  --bg-card: #1c1916;
-  --line: #322c26;
-  --line-strong: #4a4036;
-  --ink: #f3ece4;
-  --ink-muted: #b4a89b;
-  --ink-faint: #7c7166;
-  --accent: #e8590c;
-  --accent-hover: #f97316;
-  --accent-soft: rgba(232, 89, 12, 0.14);
-  --demo: #f3ece4;
-  --skill: #7dd3c7;
+  --bg: #120021;
+  --bg-elevated: #1b0630;
+  --bg-card: #20003a;
+  --bg-sunken: #0c0016;
+
+  --line: rgba(212, 161, 255, 0.14);
+  --line-strong: rgba(212, 161, 255, 0.3);
+
+  --ink: #fffefa;
+  --ink-muted: #c9bad8;
+  --ink-faint: #9585a8;
+
+  --accent: #9921fe;
+  --accent-hover: #bc6dff;
+  --accent-ink: #d4a1ff;
+  --accent-soft: rgba(153, 33, 254, 0.16);
+  --accent-deep: #490186;
+
+  --signal: #ff6217;
+  --signal-hover: #ff7d3d;
+  --mint: #96ffbb;
+
+  --radius-sm: 6px;
+  --radius: 12px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-elevated: var(--bg-elevated);
   --color-bg-card: var(--bg-card);
+  --color-bg-sunken: var(--bg-sunken);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-ink: var(--ink);
@@ -27,12 +43,16 @@
   --color-ink-faint: var(--ink-faint);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
-  --color-demo: var(--demo);
-  --color-skill: var(--skill);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-fraunces);
+  --color-signal: var(--signal);
+  --color-signal-hover: var(--signal-hover);
+  --color-mint: var(--mint);
+  --radius-sm: var(--radius-sm);
+  --radius-card: var(--radius);
+  --font-sans: var(--font-figtree);
+  --font-mono: var(--font-roboto-mono);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 html {
@@ -42,52 +62,75 @@ html {
 
 body {
   min-height: 100dvh;
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(232, 89, 12, 0.08), transparent 50%),
-    radial-gradient(900px 500px at 110% 0%, rgba(125, 211, 199, 0.05), transparent 45%),
-    var(--bg);
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
-body::before {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.35;
-  background-image:
-    linear-gradient(to right, rgba(243, 236, 228, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(243, 236, 228, 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+/* Auth0's signature rule — orange → purple → deep purple. One per page. */
+.brand-rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--signal) 2%, var(--accent) 52%, var(--accent-deep) 97%);
 }
 
-.site-shell {
-  position: relative;
-  z-index: 1;
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
 }
 
-.font-display {
-  font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-optical-sizing: auto;
+.h1 {
+  font-size: clamp(2.75rem, 6vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  color: var(--ink);
 }
+
+.h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+:where(a, button, input, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ---- Long-form markdown ---- */
 
 .prose-showcase {
   color: var(--ink-muted);
-  font-size: 1.025rem;
+  font-size: 1.0625rem;
   line-height: 1.7;
+  max-width: 70ch;
 }
 
 .prose-showcase h2,
 .prose-showcase h3 {
   color: var(--ink);
-  font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-weight: 560;
+  font-weight: 500;
   letter-spacing: -0.02em;
-  margin-top: 1.75rem;
-  margin-bottom: 0.6rem;
+  line-height: 1.25;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-showcase h2 {
+  font-size: 1.25rem;
+}
+
+.prose-showcase h3 {
+  font-size: 1.0625rem;
 }
 
 .prose-showcase p + p {
@@ -95,17 +138,26 @@ body::before {
 }
 
 .prose-showcase a {
-  color: var(--accent-hover);
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
   text-underline-offset: 3px;
+  transition: color 160ms var(--ease), text-decoration-color 160ms var(--ease);
 }
 
 .prose-showcase a:hover {
   color: var(--ink);
+  text-decoration-color: var(--accent-ink);
 }
 
 .prose-showcase ul,
 .prose-showcase ol {
-  margin: 0.85rem 0 0.85rem 1.15rem;
+  margin: 0.9rem 0 0.9rem 1.15rem;
+  list-style: disc;
+}
+
+.prose-showcase ol {
+  list-style: decimal;
 }
 
 .prose-showcase li + li {
@@ -114,52 +166,72 @@ body::before {
 
 .prose-showcase code {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.86em;
+  font-size: 0.8125rem;
   background: var(--accent-soft);
   color: var(--ink);
-  padding: 0.1em 0.35em;
+  padding: 0.15em 0.4em;
   border-radius: 4px;
 }
 
 .prose-showcase pre {
-  margin: 1rem 0;
+  margin: 1.25rem 0;
   padding: 1rem 1.1rem;
   overflow-x: auto;
-  background: #0b0a09;
+  background: var(--bg-sunken);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: var(--radius);
 }
 
 .prose-showcase pre code {
   background: transparent;
   padding: 0;
   color: var(--ink);
+  line-height: 1.6;
 }
 
 .prose-showcase table {
   width: 100%;
-  margin: 1rem 0;
-  font-size: 0.92rem;
+  margin: 1.25rem 0;
+  font-size: 0.9375rem;
   border-collapse: collapse;
 }
 
 .prose-showcase th,
 .prose-showcase td {
   text-align: left;
-  padding: 0.55rem 0.7rem;
+  padding: 0.6rem 0.75rem;
   border-bottom: 1px solid var(--line);
   vertical-align: top;
 }
 
 .prose-showcase th {
   color: var(--ink);
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+/* ---- Entrance ---- */
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rise 320ms var(--ease-out) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .rise {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {
