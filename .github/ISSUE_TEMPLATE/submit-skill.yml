@@ -1,0 +1,77 @@
+name: Submit a skill
+description: Propose an agent skill for Auth0 Showcase.
+title: "Skill: "
+labels: ["skill", "submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Prefer a new **story** on an existing install target over a new package. Checkmate and Healthcheck are stories on Auth0 Agent Skills, not separate installs.
+  - type: input
+    id: title
+    attributes:
+      label: Title
+    validations:
+      required: true
+  - type: input
+    id: oneLiner
+    attributes:
+      label: One-liner
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: Repository URL
+    validations:
+      required: true
+  - type: dropdown
+    id: topics
+    attributes:
+      label: Topics
+      multiple: true
+      options:
+        - ai-agents
+        - token-vault
+        - ciba
+        - human-in-the-loop
+        - events
+        - tenant-ops
+        - jwt
+    validations:
+      required: true
+  - type: dropdown
+    id: installTarget
+    attributes:
+      label: Install target
+      options:
+        - auth0/agent-skills (same package as the official Auth0 skill)
+        - jsonwebtoken/jwt-skills
+        - New package (explain why it cannot be a story on an existing skill)
+    validations:
+      required: true
+  - type: textarea
+    id: install
+    attributes:
+      label: Official install commands
+      description: Cursor, Claude Code, ChatGPT/Codex, and npx skills add. Paste from the upstream README.
+    validations:
+      required: true
+  - type: textarea
+    id: stories
+    attributes:
+      label: Stories this page should teach
+    validations:
+      required: true
+  - type: textarea
+    id: whenToUse
+    attributes:
+      label: When to use
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Author (Name, GitHub handle)
+    validations:
+      required: true

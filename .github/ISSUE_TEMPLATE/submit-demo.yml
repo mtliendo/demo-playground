@@ -1,0 +1,106 @@
+name: Submit a demo
+description: Propose a runnable experience for Auth0 Showcase.
+title: "Demo: "
+labels: ["demo", "submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One card per **runnable experience**, not per GitHub repo. Related repos belong in the related list.
+
+        Architecture must live in the source repo at `docs/architecture.png` (or `.svg`). Use the `showcase-architecture` skill in this repository to draft it.
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      placeholder: Hero Shield
+    validations:
+      required: true
+  - type: input
+    id: oneLiner
+    attributes:
+      label: One-liner
+      description: What the end user actually does.
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: Canonical repository URL
+    validations:
+      required: true
+  - type: input
+    id: liveUrl
+    attributes:
+      label: Live demo URL (optional)
+  - type: input
+    id: blogUrl
+    attributes:
+      label: Blog post URL (optional)
+  - type: input
+    id: videoUrl
+    attributes:
+      label: Video URL (optional)
+  - type: dropdown
+    id: topics
+    attributes:
+      label: Topics (closed set)
+      multiple: true
+      options:
+        - ai-agents
+        - token-vault
+        - ciba
+        - human-in-the-loop
+        - events
+        - tenant-ops
+        - jwt
+    validations:
+      required: true
+  - type: input
+    id: timeToStandUp
+    attributes:
+      label: Time to stand up
+      placeholder: 30–45 minutes
+    validations:
+      required: true
+  - type: textarea
+    id: auth0Requirements
+    attributes:
+      label: Auth0 requirements
+      description: Plan, CIBA, Token Vault, Guardian, verified email, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: otherRequirements
+    attributes:
+      label: Everything else
+      description: Vercel, Stripe, Neon, hardware — or “none”.
+    validations:
+      required: true
+  - type: input
+    id: architecture
+    attributes:
+      label: Architecture path in the source repo
+      description: Must exist on the default branch.
+      value: docs/architecture.png
+    validations:
+      required: true
+  - type: textarea
+    id: experience
+    attributes:
+      label: The experience
+      description: What happens in the room or in the app.
+    validations:
+      required: true
+  - type: textarea
+    id: talkTrack
+    attributes:
+      label: When to use / talk track (3 bullets)
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Author (Name, GitHub handle)
+    validations:
+      required: true

@@ -1,26 +1,170 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #100e0c;
+  --bg-elevated: #181512;
+  --bg-card: #1c1916;
+  --line: #322c26;
+  --line-strong: #4a4036;
+  --ink: #f3ece4;
+  --ink-muted: #b4a89b;
+  --ink-faint: #7c7166;
+  --accent: #e8590c;
+  --accent-hover: #f97316;
+  --accent-soft: rgba(232, 89, 12, 0.14);
+  --demo: #f3ece4;
+  --skill: #7dd3c7;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-card: var(--bg-card);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-demo: var(--demo);
+  --color-skill: var(--skill);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--bg);
+  color: var(--ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(232, 89, 12, 0.08), transparent 50%),
+    radial-gradient(900px 500px at 110% 0%, rgba(125, 211, 199, 0.05), transparent 45%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(to right, rgba(243, 236, 228, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(243, 236, 228, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+}
+
+.site-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+.prose-showcase {
+  color: var(--ink-muted);
+  font-size: 1.025rem;
+  line-height: 1.7;
+}
+
+.prose-showcase h2,
+.prose-showcase h3 {
+  color: var(--ink);
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+  margin-top: 1.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.prose-showcase p + p {
+  margin-top: 1rem;
+}
+
+.prose-showcase a {
+  color: var(--accent-hover);
+  text-underline-offset: 3px;
+}
+
+.prose-showcase a:hover {
+  color: var(--ink);
+}
+
+.prose-showcase ul,
+.prose-showcase ol {
+  margin: 0.85rem 0 0.85rem 1.15rem;
+}
+
+.prose-showcase li + li {
+  margin-top: 0.35rem;
+}
+
+.prose-showcase code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.86em;
+  background: var(--accent-soft);
+  color: var(--ink);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.prose-showcase pre {
+  margin: 1rem 0;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  background: #0b0a09;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.prose-showcase pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--ink);
+}
+
+.prose-showcase table {
+  width: 100%;
+  margin: 1rem 0;
+  font-size: 0.92rem;
+  border-collapse: collapse;
+}
+
+.prose-showcase th,
+.prose-showcase td {
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.prose-showcase th {
+  color: var(--ink);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
