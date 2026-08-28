@@ -1,0 +1,103 @@
+[
+  {
+    "slug": "party-animals",
+    "base": "https://party-animals-xi.vercel.app",
+    "shots": [
+      {
+        "label": "Landing"
+      },
+      {
+        "label": "The wall",
+        "path": "/wall"
+      },
+      {
+        "label": "Draw",
+        "path": "/draw"
+      }
+    ]
+  },
+  {
+    "slug": "aws-service-heroes",
+    "base": "http://localhost:3101",
+    "shots": [
+      {
+        "label": "Landing"
+      },
+      {
+        "label": "Architecture",
+        "path": "/architecture"
+      },
+      {
+        "label": "Create yours",
+        "path": "/",
+        "scroll": 700
+      }
+    ]
+  },
+  {
+    "slug": "trip-planner",
+    "base": "http://localhost:3102",
+    "shots": [
+      {
+        "label": "Landing"
+      },
+      {
+        "label": "How it works",
+        "path": "/",
+        "scroll": 900
+      },
+      {
+        "label": "Interruption patterns",
+        "path": "/",
+        "scroll": 1800
+      }
+    ]
+  },
+  {
+    "slug": "ciba-email",
+    "base": "http://localhost:3103",
+    "width": 720,
+    "shots": [
+      {
+        "label": "Landing"
+      }
+    ]
+  },
+  {
+    "slug": "agentic-arcade",
+    "base": "http://localhost:3104",
+    "shots": [
+      {
+        "label": "Landing"
+      },
+      {
+        "label": "The game library",
+        "path": "/",
+        "scroll": 620
+      },
+      {
+        "label": "Security unlocks",
+        "path": "/",
+        "scroll": 1250
+      }
+    ]
+  },
+  {
+    "slug": "hero-shield",
+    "base": "http://localhost:3105",
+    "shots": [
+      {
+        "label": "Landing"
+      },
+      {
+        "label": "Coverage",
+        "path": "/",
+        "scroll": 900
+      },
+      {
+        "label": "Join the room",
+        "path": "/join"
+      }
+    ]
+  }
+]
