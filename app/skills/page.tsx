@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 export default function SkillsPage() {
   const items = getCatalogItems().filter((item) => item.kind === "skill");
   return (
-    <main id="main" className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-      <p className="font-mono text-[12px] tracking-[0.2em] text-skill uppercase">Skills</p>
-      <h1 className="font-display mt-3 text-4xl tracking-tight sm:text-5xl">Agent skills</h1>
-      <p className="mt-4 max-w-2xl text-ink-muted">
-        Four stories. Two install targets. Checkmate and Healthcheck live on the Auth0 skill.
+    <main id="main" className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+      <p className="eyebrow">Skills</p>
+      <h1 className="h1 mt-4">Agent skills</h1>
+      <p className="mt-5 max-w-xl text-lg leading-8 text-ink-muted">
+        Drop one into your agent and let it do the Auth0 wiring.
       </p>
-      <div className="mt-10">
-        <CatalogPage items={items} lockedType="skill" />
+      <div className="mt-14">
+        <CatalogPage items={items} />
       </div>
     </main>
   );

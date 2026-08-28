@@ -1,5 +1,10 @@
 import type { Topic } from "./topics";
 
+export type Screenshot = {
+  src: string;
+  label: string;
+};
+
 export type Author = {
   name: string;
   github: string;
@@ -29,6 +34,7 @@ export type Demo = {
   relatedRepos: RelatedRepo[];
   seeAlso: string[];
   architecture: string;
+  screenshots: Screenshot[];
   stack: string[];
   experience: string;
   setup: string;
@@ -69,4 +75,5 @@ export type CatalogItem = {
   href: string;
   timeToStandUp?: string;
   liveUrl?: string;
+  thumbnail?: string;
 };

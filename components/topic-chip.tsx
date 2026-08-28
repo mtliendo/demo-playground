@@ -1,27 +1,15 @@
 import { TOPIC_LABELS, type Topic } from "@/lib/topics";
 
-type TopicChipProps = {
-  topic: Topic;
-  href?: string;
-  active?: boolean;
-};
-
-export function TopicChip({ topic, href, active }: TopicChipProps) {
+export function TopicChip({ topic, href }: { topic: Topic; href?: string }) {
   const label = TOPIC_LABELS[topic];
-  const className = [
-    "inline-flex items-center rounded-full border px-2.5 py-1 font-mono text-[11px] tracking-wide uppercase transition-colors",
-    active
-      ? "border-accent bg-accent-soft text-ink"
-      : "border-line text-ink-muted hover:border-line-strong hover:text-ink",
-  ].join(" ");
+  const className =
+    "inline-flex min-h-9 items-center rounded-full border border-line px-3 text-[13px] text-ink-muted transition-colors duration-150 hover:border-line-strong hover:text-ink";
 
-  if (href) {
-    return (
-      <a href={href} className={className}>
-        {label}
-      </a>
-    );
-  }
-
-  return <span className={className}>{label}</span>;
+  return href ? (
+    <a href={href} className={className}>
+      {label}
+    </a>
+  ) : (
+    <span className={className}>{label}</span>
+  );
 }

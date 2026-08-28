@@ -6,36 +6,44 @@ export const metadata: Metadata = {
   description: "Propose a demo or skill for Auth0 Showcase via a GitHub issue.",
 };
 
+const options = [
+  {
+    template: "submit-demo.yml",
+    kind: "Demo",
+    title: "Runnable experience",
+    body: "Repo, live URL, Auth0 requirements, and docs/architecture.png.",
+  },
+  {
+    template: "submit-skill.yml",
+    kind: "Skill",
+    title: "Agent skill",
+    body: "Install targets and the stories it covers. One package can host several.",
+  },
+] as const;
+
 export default function SubmitPage() {
   return (
-    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-12 sm:px-6 sm:py-16">
-      <p className="font-mono text-[12px] tracking-[0.2em] text-accent uppercase">Contribute</p>
-      <h1 className="font-display mt-3 text-4xl tracking-tight">Submit an entry</h1>
-      <p className="mt-4 leading-7 text-ink-muted">
-        No in-app form in v1. Open a GitHub issue with the template that matches the type.
-        A maintainer turns a complete issue into a content file.
+    <main id="main" className="mx-auto w-full max-w-2xl px-4 py-16 sm:px-6 sm:py-24">
+      <p className="eyebrow">Contribute</p>
+      <h1 className="h1 mt-4">Submit an entry</h1>
+      <p className="mt-5 text-lg leading-8 text-ink-muted">
+        Open a GitHub issue with the matching template. A maintainer turns a complete issue
+        into a content file.
       </p>
-      <div className="mt-8 grid gap-3 sm:grid-cols-2">
-        <a
-          href={issueTemplateUrl("submit-demo.yml")}
-          className="rounded-xl border border-line bg-bg-card p-5 hover:border-accent"
-        >
-          <p className="font-mono text-[11px] tracking-wide text-accent uppercase">Demo</p>
-          <p className="font-display mt-2 text-2xl">Runnable experience</p>
-          <p className="mt-2 text-sm text-ink-muted">
-            Repo, live URL, Auth0 requirements, and docs/architecture.png.
-          </p>
-        </a>
-        <a
-          href={issueTemplateUrl("submit-skill.yml")}
-          className="rounded-xl border border-line bg-bg-card p-5 hover:border-accent"
-        >
-          <p className="font-mono text-[11px] tracking-wide text-skill uppercase">Skill</p>
-          <p className="font-display mt-2 text-2xl">Agent skill</p>
-          <p className="mt-2 text-sm text-ink-muted">
-            Install targets and the stories it covers. Same package can host several stories.
-          </p>
-        </a>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2">
+        {options.map((option) => (
+          <a
+            key={option.template}
+            href={issueTemplateUrl(option.template)}
+            className="rounded-[12px] border border-line bg-bg-card p-5 transition-colors duration-200 hover:border-line-strong hover:bg-bg-elevated"
+          >
+            <p className="text-[13px] text-accent-ink">{option.kind}</p>
+            <p className="mt-2 text-xl font-medium tracking-[-0.015em] text-ink">
+              {option.title}
+            </p>
+            <p className="mt-2 text-[15px] leading-6 text-ink-muted">{option.body}</p>
+          </a>
+        ))}
       </div>
     </main>
   );
