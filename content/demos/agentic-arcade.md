@@ -6,6 +6,8 @@ topics:
   - token-vault
   - ciba
   - events
+  - human-in-the-loop
+  - roles
 author:
   name: Jessica Temporal
   github: jtemporal
@@ -21,8 +23,9 @@ otherRequirements:
 talkTrack:
   - Identity is the difficulty curve. Dino Dash wants a verified email; Snake wants a passkey; Whack-a-Mole wants Guardian; Reflex wants Google via Token Vault.
   - The concierge calls the Scores API with the player’s scoped JWT — first-party, on the user’s behalf.
-  - “Reset my scores” is async authorization: the agent pauses until you approve a Guardian push.
-seenAt: []
+  - “Reset my scores” is async authorization: the agent will not pause, but the reset only happens when the user approves the action through a Guardian push.
+seenAt:
+ - Temporal.io - Vibe Check (Live Stream)
 seeAlso: []
 architecture: docs/architecture.png
 stack:
@@ -44,7 +47,7 @@ Players sign in and meet an AI concierge in a small arcade. The agent always kno
 
 Players can skip the grind: ask the concierge for an all-access pass. An `arcade-admin` approves (or later revokes) at `/admin` via the Management API. “Reset my scores” waits on a Guardian push.
 
-This is Jess’s Auth0 for AI Agents sampler in one readable app — user auth, call-your-APIs, Token Vault, and CIBA.
+This is Jess’s Auth0 for AI Agents sampler in one readable app — user auth, call-your-APIs, human-in-the-loop, Token Vault, and CIBA.
 
 ## setup
 
