@@ -49,11 +49,12 @@ embed.
 2. **What lives in this repo**: `content/presentations/<slug>.md` — a flat Markdown file (same
    shape as `content/demos/*.md` and `content/skills/*.md`, not a per-slide subdirectory —
    there's no per-slide asset to key a directory off anymore). Frontmatter carries the catalog
-   metadata (title, oneLiner, topics, author, repo, timeToComplete, seenAt, seeAlso) plus
-   `slidesUrl`, the deck's normal Google Slides URL (the `.../edit` or `.../view` link you'd
-   share directly — not an embed URL, since nothing embeds it). The Markdown body is the talk
-   script/notes, written as plain prose or `##`-per-section, same role as a Demo's `experience`
-   section.
+   metadata (title, oneLiner, topics, author, timeToComplete, seenAt, seeAlso) plus `slidesUrl`,
+   the deck's normal Google Slides URL (the `.../edit` or `.../view` link you'd share directly —
+   not an embed URL, since nothing embeds it). No `repo` field — unlike a Demo or Skill, a
+   presentation's content has no relationship to a codebase, so there's nothing for a repo link
+   to point at. The Markdown body is the talk script/notes, written as plain prose or
+   `##`-per-section, same role as a Demo's `experience` section.
 3. **Runtime**: the detail page renders a single link/button pointing at `slidesUrl`, opened via
    `TrackedLink` with `target="_blank"` (already the convention for external links in this repo).
    No render step, no static images, no `scripts/render-slides.mjs`, no `marp-cli` dependency —
@@ -67,12 +68,12 @@ embed.
    place in the site where "reusable regardless of internal or external audience" — the original
    stated goal — is *not* true for this iteration, and that limitation is stated in the UI, not
    just in this doc.
-5. **"Take this and reuse it" action**: same role as a Demo's `Repository` button, and now the
-   *same* button as the slides link above — since the deck lives in Google Slides (not in git),
-   opening it via the "Open slides" button already lets anyone who can see it duplicate it into
-   their own Drive from there (File → Make a copy). The existing `repo` link stays as a second,
-   separate action for whatever code/companion repo goes with the talk. No PPTX export tooling
-   needed; that concern doesn't arise since the canonical copy already lives in Slides.
+5. **"Take this and reuse it" action**: same role as a Demo's `Repository` button, but here it's
+   the *only* action, not a second one alongside a repo link — since the deck lives in Google
+   Slides (not in git) and a presentation has no companion codebase, opening it via the "Open
+   slides" button already lets anyone who can see it duplicate it into their own Drive from
+   there (File → Make a copy). No PPTX export tooling needed; that concern doesn't arise since
+   the canonical copy already lives in Slides.
 
 This also means the "public git history" tension from the Marp revision goes away for
 Presentations specifically — the deck content itself is never committed, only metadata and a
@@ -81,10 +82,11 @@ Okta-gate limitation described above.
 
 ## Data model
 
-### Shared base type (unchanged from prior revision)
+### Shared base type
 
-`Demo` and `Skill` already both carry `slug`, `title`, `oneLiner`, `topics`, `author`, `repo`.
-Extract this once, as a third kind now justifies it:
+`Demo` and `Skill` already both carry `slug`, `title`, `oneLiner`, `topics`, `author`. `repo` is
+**not** in the shared type — a Presentation has no relationship to a codebase, so `repo` stays
+on `Demo`/`Skill` individually rather than being hoisted into the shared shape:
 
 ```ts
 export type CatalogEntryMeta = {
@@ -93,14 +95,14 @@ export type CatalogEntryMeta = {
   oneLiner: string;
   topics: Topic[];
   author: Author;
-  repo: string;
 };
 ```
 
-`Demo`, `Skill`, and `Presentation` become `CatalogEntryMeta & { kind: "..."; ...rest }` —
-type-only refactor, no change to existing content files. `lib/content.ts` gets a matching
-`parseCatalogEntryMeta(slug, data)` helper used by all three `parse*` functions (including
-retrofitting `parseDemo`/`parseSkill`, so the DRY fix is consistent, not just additive).
+`Demo`, `Skill`, and `Presentation` become `CatalogEntryMeta & { kind: "..."; ...rest }`, with
+`repo: string` added directly on `Demo` and `Skill` — type-only refactor, no change to existing
+content files. `lib/content.ts` gets a matching `parseCatalogEntryMeta(slug, data)` helper used
+by all three `parse*` functions (including retrofitting `parseDemo`/`parseSkill`, which each add
+`repo: String(data.repo ?? "")` themselves after spreading the shared helper).
 
 ### Presentation-specific type
 
@@ -136,7 +138,6 @@ render, derive it inline: `item.kind === "presentation"`.
   oneLiner: ...
   topics: [ai-agents]
   author: { name: ..., github: ... }
-  repo: https://github.com/...
   timeToComplete: 15–20 minutes
   seenAt: []
   seeAlso: []
@@ -166,8 +167,10 @@ render, derive it inline: `item.kind === "presentation"`.
      badge — see Components)
   2. Talk track — render `talkTrack` via the existing `Markdown` component
   3. Run it — time to complete, **"Open slides (Okta employees only)"** button (`slidesUrl`,
-     via `TrackedLink`/`btnBrand`, `target="_blank"`) and `repo` link, side by side
-  4. See also — reuse the existing `seeAlso`/related-repo rendering pattern from the demo page
+     via `TrackedLink`/`btnBrand`, `target="_blank"`) — the sole action, no `repo` link, since a
+     presentation has no companion codebase
+  4. See also — reuse the existing `seeAlso` rendering pattern from the demo page (the
+     related-*repos* half of that pattern doesn't apply — presentations have no `repo` field)
 
 No dedicated slide-viewing component (no `GoogleSlideEmbed`, no `slide-deck.tsx`, no iframe at
 all) — the slides button is just a `TrackedLink` styled with the existing `btnBrand` class, same
@@ -189,6 +192,11 @@ risk, in place of what would otherwise have been an iframe fallback message.
 - Same badge repeated on the presentation detail page hero (not just the card), since a visitor
   who navigates straight to a presentation URL (shared link, search result) may skip the index
   page entirely.
+- Presentations have no screenshot pipeline (the deck lives in Google Slides, not this repo), so
+  `CatalogCard` renders a small static placeholder graphic — two overlapping slide rectangles —
+  in the thumbnail slot when `item.kind === "presentation"` and there's no `thumbnail`, instead
+  of skipping the image block entirely. Keeps card heights consistent with Demo cards in the
+  same grid.
 
 ## Navigation & site copy
 
@@ -199,8 +207,8 @@ risk, in place of what would otherwise have been an iframe fallback message.
 ## Submission path
 
 - New `.github/ISSUE_TEMPLATE/submit-presentation.yml`, modeled on `submit-demo.yml`: title,
-  oneLiner, repo, topics (reuse same closed dropdown list), timeToComplete, author, `slidesUrl`,
-  and a textarea for the talk track.
+  oneLiner, topics (reuse same closed dropdown list), timeToComplete, author, `slidesUrl`, and a
+  textarea for the talk track. No `repo` field — presentations have no companion codebase.
 - Add an explicit markdown callout at the top of the template (same spot `submit-demo.yml` uses
   for its architecture-path note): "Share the Slides deck with the organization (Share → General
   access → `<org>`), **not** 'Anyone with the link.' This section is only viewable by
@@ -256,10 +264,10 @@ Removed relative to earlier revisions — no longer needed:
    - Visit `/presentations` — confirm the placeholder card renders with the "Slides: Okta only" badge,
      topic filter still works across all three kinds from `/`.
    - Visit `/presentations/example-placeholder` — confirm the "Open slides (Okta employees
-     only)" button renders, links to `slidesUrl`, and opens in a new tab (clicking it will land
-     on Google's access-denied/sign-in state with the placeholder URL — expected, see Seed
-     content above); confirm the access-note line under the button, talk track, and repo link
-     all show correctly.
+     only)" button renders as the sole CTA (no Repository button — presentations have no
+     `repo`), links to `slidesUrl`, and opens in a new tab (clicking it will land on Google's
+     access-denied/sign-in state with the placeholder URL — expected, see Seed content above);
+     confirm the access-note line under the button and the talk track show correctly.
    - Confirm header nav shows "Presentations" and highlights active state on that route.
    - Check `/submit` for the third card, correct issue-template link, and that the new template
      renders the org-sharing callout.
