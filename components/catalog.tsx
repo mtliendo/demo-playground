@@ -91,6 +91,25 @@ function kindLabel(kind: CatalogItem["kind"]) {
   return kind === "demo" ? "Demo" : kind === "skill" ? "Skill" : "Presentation";
 }
 
+// Presentations have no screenshot pipeline (the deck lives in Google Slides, not this repo),
+// so a card without a thumbnail gets a static placeholder instead of skipping the image block —
+// keeps card heights consistent with Demo cards in the same grid.
+function PresentationPlaceholder() {
+  return (
+    <div
+      aria-hidden
+      className="relative flex aspect-[16/10] items-center justify-center overflow-hidden border-b border-line bg-bg-sunken"
+    >
+      <svg viewBox="0 0 24 24" className="size-12 text-ink-faint" fill="none">
+        {/* Two overlapping 16:9 slides, offset like a deck — reads as "presentation" at a glance. */}
+        <rect x="2.5" y="7" width="15" height="9.5" rx="1.2" fill="var(--bg-sunken)" stroke="currentColor" strokeWidth="1.4" />
+        <rect x="6.5" y="3" width="15" height="9.5" rx="1.2" fill="var(--bg-sunken)" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M9.5 6.2h9M9.5 8.7h6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
 function CatalogCard({ item }: { item: CatalogItem }) {
   const gated = item.kind === "presentation";
   return (
@@ -108,6 +127,8 @@ function CatalogCard({ item }: { item: CatalogItem }) {
             className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           />
         </div>
+      ) : item.kind === "presentation" ? (
+        <PresentationPlaceholder />
       ) : null}
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-center gap-2">
