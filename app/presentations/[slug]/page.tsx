@@ -74,9 +74,6 @@ export default async function PresentationPage({ params }: PresentationParams) {
           <TrackedLink href={presentation.slidesUrl} event="cta_slides" className={btnBrand}>
             Open slides (Okta employees only)
           </TrackedLink>
-          <TrackedLink href={presentation.repo} event="cta_presentation_repo" className={btnBrand}>
-            Repository
-          </TrackedLink>
         </div>
         <p className="mt-5 max-w-[60ch] text-[15px] text-ink-faint">
           Opens in Google Slides. Requires signing in with your Okta-linked Google account — if

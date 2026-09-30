@@ -21,11 +21,11 @@ export type CatalogEntryMeta = {
   oneLiner: string;
   topics: Topic[];
   author: Author;
-  repo: string;
 };
 
 export type Demo = CatalogEntryMeta & {
   kind: "demo";
+  repo: string;
   liveUrl?: string;
   blogUrl?: string;
   videoUrl?: string;
@@ -57,6 +57,7 @@ export type SkillInstall = {
 
 export type Skill = CatalogEntryMeta & {
   kind: "skill";
+  repo: string;
   install: SkillInstall;
   stories: SkillStory[];
   whenToUse: string[];
