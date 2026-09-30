@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { isTopic, type Topic } from "./topics";
-import type { CatalogItem, Demo, Screenshot, Skill } from "./types";
+import type { CatalogEntryMeta, CatalogItem, Demo, Presentation, Screenshot, Skill } from "./types";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const SHOTS_ROOT = path.join(process.cwd(), "public", "shots");
@@ -57,17 +57,23 @@ function splitSections(body: string) {
   };
 }
 
-function parseDemo(slug: string, data: Record<string, unknown>, body: string): Demo {
+function parseCatalogEntryMeta(slug: string, data: Record<string, unknown>): CatalogEntryMeta {
   const author = (data.author as { name?: string; github?: string }) ?? {};
-  const { experience, setup } = splitSections(body);
   return {
-    kind: "demo",
     slug,
     title: String(data.title ?? slug),
     oneLiner: String(data.oneLiner ?? ""),
     topics: asTopics(data.topics),
     author: { name: String(author.name ?? "Unknown"), github: String(author.github ?? "") },
     repo: String(data.repo ?? ""),
+  };
+}
+
+function parseDemo(slug: string, data: Record<string, unknown>, body: string): Demo {
+  const { experience, setup } = splitSections(body);
+  return {
+    kind: "demo",
+    ...parseCatalogEntryMeta(slug, data),
     liveUrl: data.liveUrl ? String(data.liveUrl) : undefined,
     blogUrl: data.blogUrl ? String(data.blogUrl) : undefined,
     videoUrl: data.videoUrl ? String(data.videoUrl) : undefined,
@@ -91,7 +97,6 @@ function parseDemo(slug: string, data: Record<string, unknown>, body: string): D
 }
 
 function parseSkill(slug: string, data: Record<string, unknown>, body: string): Skill {
-  const author = (data.author as { name?: string; github?: string }) ?? {};
   const install = (data.install as Record<string, string>) ?? {};
   const stories = Array.isArray(data.stories)
     ? (data.stories as { title?: string; body?: string }[])
@@ -100,12 +105,7 @@ function parseSkill(slug: string, data: Record<string, unknown>, body: string): 
     : [];
   return {
     kind: "skill",
-    slug,
-    title: String(data.title ?? slug),
-    oneLiner: String(data.oneLiner ?? ""),
-    topics: asTopics(data.topics),
-    author: { name: String(author.name ?? "Unknown"), github: String(author.github ?? "") },
-    repo: String(data.repo ?? ""),
+    ...parseCatalogEntryMeta(slug, data),
     install: {
       cursor: String(install.cursor ?? ""),
       claude: String(install.claude ?? ""),
@@ -115,6 +115,33 @@ function parseSkill(slug: string, data: Record<string, unknown>, body: string): 
     stories,
     whenToUse: asStringArray(data.whenToUse),
     synopsis: body,
+  };
+}
+
+// Sharing must stay restricted to the org (Okta-federated Google Workspace) — "Anyone with
+// the link" is the exact setting that got the original iframe-embed design rejected. Warn
+// (don't fail the build) if a URL looks like a public-publish/embed link, so a pasted-in-error
+// case surfaces immediately instead of quietly repeating that mistake.
+function warnIfPublicSlidesUrl(slug: string, slidesUrl: string) {
+  if (/\/pub\b|\/embed\b/.test(slidesUrl)) {
+    console.warn(
+      `[content] presentations/${slug}: slidesUrl looks like a "Publish to web"/embed link ` +
+        `(${slidesUrl}). Use the normal share/edit URL with sharing restricted to the org.`,
+    );
+  }
+}
+
+function parsePresentation(slug: string, data: Record<string, unknown>, body: string): Presentation {
+  const slidesUrl = String(data.slidesUrl ?? "");
+  warnIfPublicSlidesUrl(slug, slidesUrl);
+  return {
+    kind: "presentation",
+    ...parseCatalogEntryMeta(slug, data),
+    timeToComplete: String(data.timeToComplete ?? "Unknown"),
+    seenAt: asStringArray(data.seenAt),
+    seeAlso: asStringArray(data.seeAlso),
+    slidesUrl,
+    talkTrack: body,
   };
 }
 
@@ -136,6 +163,16 @@ export function getSkills(): Skill[] {
 
 export function getSkill(slug: string) {
   return getSkills().find((skill) => skill.slug === slug);
+}
+
+export function getPresentations(): Presentation[] {
+  return readMdFiles("presentations")
+    .map((file) => parsePresentation(file.slug, file.data as Record<string, unknown>, file.body))
+    .toSorted((a, b) => a.title.localeCompare(b.title));
+}
+
+export function getPresentation(slug: string) {
+  return getPresentations().find((presentation) => presentation.slug === slug);
 }
 
 export function getCatalogItems(): CatalogItem[] {
@@ -162,5 +199,16 @@ export function getCatalogItems(): CatalogItem[] {
       href: `/skills/${skill.slug}`,
     }),
   );
-  return [...demos, ...skills];
+  const presentations = getPresentations().map(
+    (presentation): CatalogItem => ({
+      kind: "presentation",
+      slug: presentation.slug,
+      title: presentation.title,
+      oneLiner: presentation.oneLiner,
+      topics: presentation.topics,
+      href: `/presentations/${presentation.slug}`,
+      timeToStandUp: presentation.timeToComplete,
+    }),
+  );
+  return [...demos, ...skills, ...presentations];
 }
