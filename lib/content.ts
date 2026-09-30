@@ -65,7 +65,6 @@ function parseCatalogEntryMeta(slug: string, data: Record<string, unknown>): Cat
     oneLiner: String(data.oneLiner ?? ""),
     topics: asTopics(data.topics),
     author: { name: String(author.name ?? "Unknown"), github: String(author.github ?? "") },
-    repo: String(data.repo ?? ""),
   };
 }
 
@@ -74,6 +73,7 @@ function parseDemo(slug: string, data: Record<string, unknown>, body: string): D
   return {
     kind: "demo",
     ...parseCatalogEntryMeta(slug, data),
+    repo: String(data.repo ?? ""),
     liveUrl: data.liveUrl ? String(data.liveUrl) : undefined,
     blogUrl: data.blogUrl ? String(data.blogUrl) : undefined,
     videoUrl: data.videoUrl ? String(data.videoUrl) : undefined,
@@ -106,6 +106,7 @@ function parseSkill(slug: string, data: Record<string, unknown>, body: string): 
   return {
     kind: "skill",
     ...parseCatalogEntryMeta(slug, data),
+    repo: String(data.repo ?? ""),
     install: {
       cursor: String(install.cursor ?? ""),
       claude: String(install.claude ?? ""),
@@ -131,8 +132,18 @@ function warnIfPublicSlidesUrl(slug: string, slidesUrl: string) {
   }
 }
 
+// `slidesUrl: env:SOME_VAR` in frontmatter reads the real deck link from an env var instead of
+// the content file, so a maintainer's own org-shared preview deck never has to be committed.
+// Falls back to the raw frontmatter value if the env var isn't set, so a fresh checkout still
+// builds — just with an obviously-unset link.
+function resolveSlidesUrl(rawValue: string): string {
+  const match = rawValue.match(/^env:(\w+)$/);
+  if (!match) return rawValue;
+  return process.env[match[1]] ?? rawValue;
+}
+
 function parsePresentation(slug: string, data: Record<string, unknown>, body: string): Presentation {
-  const slidesUrl = String(data.slidesUrl ?? "");
+  const slidesUrl = resolveSlidesUrl(String(data.slidesUrl ?? ""));
   warnIfPublicSlidesUrl(slug, slidesUrl);
   return {
     kind: "presentation",

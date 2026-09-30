@@ -7,6 +7,8 @@ export const SITE = {
   codeSamplesUrl: "https://developer.auth0.com/resources/code-samples",
 } as const;
 
-export function issueTemplateUrl(template: "submit-demo.yml" | "submit-skill.yml") {
+export function issueTemplateUrl(
+  template: "submit-demo.yml" | "submit-skill.yml" | "submit-presentation.yml",
+) {
   return `https://github.com/${SITE.githubRepo}/issues/new?template=${template}`;
 }

@@ -1,0 +1,73 @@
+name: Submit a presentation
+description: Propose a conference/booth talk deck for Auth0 Showcase.
+title: "Presentation: "
+labels: ["presentation", "submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Presentations link out to Google Slides — the deck itself is never checked into this
+        repo, only the metadata and a link.
+
+        **Share the Slides deck with the organization** (Share → General access → your org),
+        **not** "Anyone with the link." This section is only viewable by Okta-authenticated
+        teammates in this iteration — an externally-shared link defeats that and will be sent
+        back for re-sharing.
+
+        The talk track/script you paste below is rendered on this site's page directly, which is
+        public even though your slides aren't — don't paste anything from the deck you wouldn't
+        want public.
+  - type: input
+    id: title
+    attributes:
+      label: Title
+    validations:
+      required: true
+  - type: input
+    id: oneLiner
+    attributes:
+      label: One-liner
+    validations:
+      required: true
+  - type: input
+    id: slidesUrl
+    attributes:
+      label: Google Slides URL
+      description: Shared to the org, not "Anyone with the link." See note above.
+    validations:
+      required: true
+  - type: dropdown
+    id: topics
+    attributes:
+      label: Topics (closed set)
+      multiple: true
+      options:
+        - ai-agents
+        - token-vault
+        - ciba
+        - human-in-the-loop
+        - events
+        - tenant-ops
+        - jwt
+    validations:
+      required: true
+  - type: input
+    id: timeToComplete
+    attributes:
+      label: Time to complete
+      placeholder: 15–20 minutes
+    validations:
+      required: true
+  - type: textarea
+    id: talkTrack
+    attributes:
+      label: Talk track / script
+      description: What the presenter says, in order. This is rendered publicly on the site.
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Author (Name, GitHub handle)
+    validations:
+      required: true
