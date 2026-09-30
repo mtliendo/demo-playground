@@ -15,14 +15,17 @@ export type RelatedRepo = {
   url: string;
 };
 
-export type Demo = {
-  kind: "demo";
+export type CatalogEntryMeta = {
   slug: string;
   title: string;
   oneLiner: string;
   topics: Topic[];
   author: Author;
   repo: string;
+};
+
+export type Demo = CatalogEntryMeta & {
+  kind: "demo";
   liveUrl?: string;
   blogUrl?: string;
   videoUrl?: string;
@@ -52,22 +55,28 @@ export type SkillInstall = {
   any: string;
 };
 
-export type Skill = {
+export type Skill = CatalogEntryMeta & {
   kind: "skill";
-  slug: string;
-  title: string;
-  oneLiner: string;
-  topics: Topic[];
-  author: Author;
-  repo: string;
   install: SkillInstall;
   stories: SkillStory[];
   whenToUse: string[];
   synopsis: string;
 };
 
+export type Presentation = CatalogEntryMeta & {
+  kind: "presentation";
+  timeToComplete: string;
+  seenAt: string[];
+  seeAlso: string[];
+  // Google Slides view/edit URL. Sharing must be restricted to the org (Okta-federated
+  // Google Workspace) — never "Anyone with the link" — so this is opened via a plain
+  // link-out button, never embedded in an <iframe>.
+  slidesUrl: string;
+  talkTrack: string;
+};
+
 export type CatalogItem = {
-  kind: "demo" | "skill";
+  kind: "demo" | "skill" | "presentation";
   slug: string;
   title: string;
   oneLiner: string;
