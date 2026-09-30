@@ -87,8 +87,12 @@ export function Catalog({ items }: { items: CatalogItem[] }) {
   );
 }
 
+function kindLabel(kind: CatalogItem["kind"]) {
+  return kind === "demo" ? "Demo" : kind === "skill" ? "Skill" : "Presentation";
+}
+
 function CatalogCard({ item }: { item: CatalogItem }) {
-  const isDemo = item.kind === "demo";
+  const gated = item.kind === "presentation";
   return (
     <Link
       href={item.href}
@@ -106,9 +110,15 @@ function CatalogCard({ item }: { item: CatalogItem }) {
         </div>
       ) : null}
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-[13px] text-accent-ink">
-          {isDemo ? "Demo" : "Skill"}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-[13px] text-accent-ink">{kindLabel(item.kind)}</p>
+          {gated ? (
+            <span className="inline-flex items-center gap-1 text-[13px] text-ink-faint">
+              <span aria-hidden>🔒</span>
+              Slides: Okta only
+            </span>
+          ) : null}
+        </div>
         <h2 className="mt-2 text-xl font-medium tracking-[-0.015em] text-ink">
           {item.title}
         </h2>
@@ -124,7 +134,8 @@ function CatalogCard({ item }: { item: CatalogItem }) {
             </>
           ) : null}
           <span>
-            {item.timeToStandUp ?? (isDemo ? "Runnable app" : "Agent skill")}
+            {item.timeToStandUp ??
+              (item.kind === "demo" ? "Runnable app" : item.kind === "skill" ? "Agent skill" : "Talk")}
           </span>
         </p>
       </div>
