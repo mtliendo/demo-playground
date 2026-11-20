@@ -48,7 +48,7 @@ Past conversations reopen from a user-scoped history sidebar. The preview image 
 
 ## setup
 
-1. Clone [focusOtter/google-token-vault](https://github.com/focusOtter/google-token-vault) and check out `devin/google-token-vault-app` while the app's PR is awaiting merge. Use Node LTS and `pnpm install`.
+1. Clone [focusOtter/google-token-vault](https://github.com/focusOtter/google-token-vault) and use the `main` branch. Use Node LTS and `pnpm install`.
 2. Follow the repository README to create a confidential Auth0 application, enable the Token Vault grant, and configure the My Account API user-delegated permission and MRRT policy. Add exact local and deployed callback, logout, and origin URLs.
 3. Enable Calendar and Gmail APIs in Google Cloud. Create your own OAuth web client using the Auth0 connection's `/login/callback` redirect, configure the two Google scopes, and add your Google account as a test user if the consent screen is in Testing.
 4. Configure a Google connection for authentication and Connected Accounts with Offline Access. Set `AUTH0_GOOGLE_CONNECTION` to its name; the default is `google-oauth2`, and the live demo uses a dedicated `google-token-vault` connection.
