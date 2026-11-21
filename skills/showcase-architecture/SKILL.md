@@ -34,6 +34,6 @@ If no canvas MCP is available, produce a clear mermaid `flowchart LR` in chat, t
 
 ## Do not
 
-- Put the diagram only in Showcase `public/`.
+- Put a diagram only in Showcase `public/` when the source repo can take it. `public/architecture/<slug>.png` is a fallback for demos whose repo has no diagram on `main` yet; the source repo copy wins once it lands.
 - Point frontmatter at a localhost path.
 - Block publishing a Showcase card if the file is missing — the catalog shows an empty state instead.
