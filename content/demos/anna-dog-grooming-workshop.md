@@ -38,7 +38,7 @@ stack:
 
 ## experience
 
-The workshop builds a salon in three phases: sign in and manage your own dogs and appointments, connect Google Calendar through Auth0 Token Vault, then let an AI agent manage your bookings. The MCP server verifies the Auth0 access token and checks tool scopes before reading or writing records for that customer.
+The workshop builds a salon in three phases: sign in through Auth0 Universal Login to manage your own dogs and appointments, connect Google Calendar through Auth0 Token Vault, then let an AI agent manage your bookings. The MCP server verifies the Auth0 access token and checks tool scopes before reading or writing records for that customer.
 
 The **Live** link is the hosted `/mcp` endpoint. Connect it from an OAuth-capable MCP client; an unauthenticated browser request gets an auth challenge. To browse the salon instead, [open the workshop web app](https://anna-dog-grooming-workshop.vercel.app/).
 
