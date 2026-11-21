@@ -10,6 +10,7 @@ author:
   name: Jessica Temporal
   github: jtemporal
 repo: https://github.com/jtemporal/game-library-demo
+liveUrl: https://auth0-agentic-arcade.vercel.app
 timeToStandUp: 45–90 minutes
 auth0Requirements:
   - Auth0 tenant (free tier is enough to sign in and play the gated lobby)
