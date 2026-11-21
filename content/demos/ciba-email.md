@@ -8,6 +8,7 @@ author:
   name: Michael Liendo
   github: mtliendo
 repo: https://github.com/mtliendo/ciba-email
+liveUrl: https://ciba-email.vercel.app
 timeToStandUp: 20–30 minutes
 auth0Requirements:
   - Confidential Regular Web Application (client secret)
