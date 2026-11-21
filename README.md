@@ -16,7 +16,7 @@ Content is the source of truth:
 
 Add an entry by adding a file. Submit from the site goes to GitHub issue templates in `.github/ISSUE_TEMPLATE/`.
 
-Architecture diagrams live in each **source demo repo** at `docs/architecture.png`. This package ships `skills/showcase-architecture` to help draft them.
+Architecture diagrams live in each **source demo repo** at `docs/architecture.png`. Until a source repo has one on `main`, the demo page falls back to `public/architecture/<slug>.png`. This package ships `skills/showcase-architecture` to help draft them.
 
 Set `NEXT_PUBLIC_GITHUB_REPO` (default `focusOtter/demo-playground`) so Submit links hit the right issue tracker.
 

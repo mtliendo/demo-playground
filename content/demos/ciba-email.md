@@ -24,7 +24,7 @@ talkTrack:
 seenAt: []
 seeAlso:
   - hero-shield
-architecture: docs/architecture.png
+architecture: docs/architecture.svg
 stack:
   - Next.js
   - Auth0

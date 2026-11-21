@@ -103,7 +103,11 @@ export default async function DemoPage({ params }: DemoParams) {
           <Markdown>{demo.experience}</Markdown>
         </div>
         <div className="mt-8">
-          <ArchitectureFigure repo={demo.repo} architecturePath={demo.architecture} />
+          <ArchitectureFigure
+            slug={demo.slug}
+            repo={demo.repo}
+            architecturePath={demo.architecture}
+          />
         </div>
         {demo.talkTrack.length > 0 ? (
           <dl className="mt-8">
