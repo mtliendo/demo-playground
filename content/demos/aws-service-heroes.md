@@ -9,6 +9,7 @@ author:
   name: Michael Liendo
   github: focusOtter
 repo: https://github.com/focusOtter/aws-service-heroes
+liveUrl: https://aws-service-heroes.vercel.app
 timeToStandUp: 2+ hours
 auth0Requirements:
   - Auth0 application used by the Next.js booth frontend
