@@ -6,6 +6,7 @@ export const TOPICS = [
   "events",
   "tenant-ops",
   "jwt",
+  "roles",
 ] as const;
 
 export type Topic = (typeof TOPICS)[number];
@@ -18,6 +19,7 @@ export const TOPIC_LABELS: Record<Topic, string> = {
   events: "Events",
   "tenant-ops": "Tenant ops",
   jwt: "JWT",
+  roles: "Roles",
 };
 
 export function isTopic(value: string): value is Topic {
