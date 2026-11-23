@@ -24,7 +24,7 @@ otherRequirements:
 talkTrack:
   - Identity is the difficulty curve. Dino Dash wants a verified email; Snake wants a passkey; Whack-a-Mole wants Guardian; Reflex wants Google via Token Vault.
   - The concierge calls the Scores API with the player’s scoped JWT — first-party, on the user’s behalf.
-  - “Reset my scores” is async authorization: the agent will not pause, but the reset only happens when the user approves the action through a Guardian push.
+  - '“Reset my scores” is async authorization: the agent will not pause, but the reset only happens when the user approves the action through a Guardian push.'
 seenAt:
  - Temporal.io - Vibe Check (Live Stream)
 seeAlso: []
