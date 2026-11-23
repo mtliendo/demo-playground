@@ -1,17 +1,26 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import Image from "next/image";
 import { architectureAvailable, architectureRawUrl } from "@/lib/github";
 
+function localArchitecture(slug: string) {
+  const file = `/architecture/${slug}.png`;
+  return existsSync(path.join(process.cwd(), "public", file)) ? file : null;
+}
+
 export async function ArchitectureFigure({
+  slug,
   repo,
   architecturePath,
 }: {
+  slug: string;
   repo: string;
   architecturePath: string;
 }) {
-  const src = architectureRawUrl(repo, architecturePath);
-  const exists = src ? await architectureAvailable(src) : false;
+  const remote = architectureRawUrl(repo, architecturePath);
+  const src = (remote && (await architectureAvailable(remote)) ? remote : null) ?? localArchitecture(slug);
 
-  if (!src || !exists) {
+  if (!src) {
     return (
       <p className="rounded-[12px] border border-dashed border-line bg-bg-card px-5 py-6 text-[15px] leading-6 text-ink-muted">
         No architecture diagram yet. Add{" "}

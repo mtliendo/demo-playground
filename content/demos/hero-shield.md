@@ -10,6 +10,7 @@ author:
   name: Michael Liendo
   github: mtliendo
 repo: https://github.com/mtliendo/insurance-demo-new
+liveUrl: https://insurance-demo-new.vercel.app
 timeToStandUp: 1–2 hours
 auth0Requirements:
   - Regular Web Application (client secret required — not a SPA)

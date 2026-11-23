@@ -39,8 +39,8 @@ export function ScreenshotCarousel({ shots, title }: { shots: Screenshot[]; titl
               src={shot.src}
               alt={`${title} — ${shot.label}`}
               fill
-              priority={index === 0}
-              sizes="(min-width: 768px) 768px, 100vw"
+              unoptimized
+              loading={index === 0 ? "eager" : "lazy"}
               className="object-cover object-top"
             />
           </div>
