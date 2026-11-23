@@ -20,7 +20,7 @@ otherRequirements:
   - A GitHub repo that can receive issues
   - Vercel for the frontend
 talkTrack:
-  - The booth device is free in seconds: the still comes back first, video is async.
+  - 'The booth device is free in seconds: the still comes back first, video is async.'
   - The Auth0 punchline is after they leave — completion Lambda patches the GitHub issue through Token Vault, not a stored PAT.
   - Use this when the room is AWS-shaped and you still need an identity grant, not a Cognito sidebar.
 seenAt:

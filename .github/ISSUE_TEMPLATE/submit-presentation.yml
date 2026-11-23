@@ -43,6 +43,7 @@ body:
         - events
         - tenant-ops
         - jwt
+        - roles
     validations:
       required: true
   - type: input

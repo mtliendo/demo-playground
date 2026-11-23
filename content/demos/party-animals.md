@@ -16,7 +16,7 @@ auth0Requirements:
   - Token Vault plus a GitHub connection if you run Motif mode (drawings posted as issues)
 otherRequirements:
   - Vercel project for the live app
-  - Optional: the booth kit repo if you are standing this up for a room
+  - 'Optional: the booth kit repo if you are standing this up for a room'
 talkTrack:
   - Attendees play a real game; identity is the leaderboard, not a login slide.
   - Token Vault is the punchline when a drawing becomes a GitHub issue without a PAT.
