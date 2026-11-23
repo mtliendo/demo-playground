@@ -10,15 +10,13 @@ author:
   name: Michael Liendo
   github: mtliendo
 repo: https://github.com/mtliendo/cascadia-talk-demo
+liveUrl: https://focus-otter-trip-planner.vercel.app
 timeToStandUp: 1–2 hours
 auth0Requirements:
   - Regular Web Application with Auth0 login
   - Token Vault and a Google Calendar connection
-  - CIBA with Guardian push for the last step (plan/feature check before the talk)
 otherRequirements:
-  - Stripe (Link) for the payment interruption
-  - Neon Postgres (SQLite works locally via Prisma)
-  - Vercel AI SDK and a model key
+  - Vercel AI Gateway access
 talkTrack:
   - Do not context-switch demos. The audience watches one booking flow while the interruption type changes.
   - Match the interruption to the consequence — a confirm button is not a push notification is not moving money.
@@ -32,8 +30,7 @@ stack:
   - Next.js
   - Vercel AI SDK
   - Auth0
-  - Stripe
-  - Neon
+  - Google Calendar
 ---
 
 ## experience
@@ -41,9 +38,9 @@ stack:
 An AI flight-booking assistant that escalates in one sitting:
 
 1. **AI SDK interrupt** — missing seat preference. Low stakes, conversational gap-fill.
-2. **Auth0 Token Vault** — Google Calendar is not connected. Permission expansion.
-3. **Stripe Link** — a promo, then real payment approval. Money moving.
-4. **Auth0 CIBA + Guardian** — an airline seat upgrade the user did not start. The agent acts on their behalf; the phone decides.
+2. **Auth0 Token Vault** — connect Google Calendar and approve adding the flight to your calendar.
+3. **Simulated Stripe Link** — find a promo and approve a sample payment. No Stripe request or charge.
+4. **Simulated Auth0 CIBA + Guardian** — approve or decline a sample seat upgrade in chat. No email or push is sent.
 
 Same app. Same story. The HIL pattern is the product.
 
@@ -51,7 +48,7 @@ Same app. Same story. The HIL pattern is the product.
 
 1. Clone [mtliendo/cascadia-talk-demo](https://github.com/mtliendo/cascadia-talk-demo).
 2. `npm install`, copy `.env.example` to `.env.local`.
-3. Fill Auth0 (app + Token Vault + CIBA/Guardian), Stripe, and Neon (or use local SQLite).
+3. Configure Auth0 login, the Google Calendar Token Vault connection, and Vercel AI Gateway as described in the repo README.
 4. `npm run dev` and walk the four steps in order — that is both the test plan and the talk.
 
-Flight data is mock JSON. There is no real airlines API. Auth0 handles CIBA email natively; this talk path uses Guardian for the last step, so confirm the tenant can send push before you promise it on stage.
+Flight data is mocked. The demo does not book or charge for flights.
