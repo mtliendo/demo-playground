@@ -43,7 +43,7 @@ export function SiteHeader() {
       </a>
 
       <div className="border-b border-line bg-bg/75 backdrop-blur-xl">
-        <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
             <Mark />
             <span className="flex flex-col leading-none">
@@ -65,7 +65,7 @@ export function SiteHeader() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "relative px-2.5 py-2 text-[15px] transition-colors duration-150",
+                    "relative px-1.5 py-2 text-[15px] transition-colors duration-150 sm:px-2.5",
                     active ? "text-ink" : "text-ink-muted hover:text-ink",
                   ].join(" ")}
                 >

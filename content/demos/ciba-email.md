@@ -8,6 +8,7 @@ author:
   name: Michael Liendo
   github: mtliendo
 repo: https://github.com/mtliendo/ciba-email
+liveUrl: https://ciba-email.vercel.app
 timeToStandUp: 20–30 minutes
 auth0Requirements:
   - Confidential Regular Web Application (client secret)
@@ -17,24 +18,27 @@ auth0Requirements:
   - Not available on the Free plan — Essentials plus the Auth0 for AI Agents add-on, or confirm CIBA email on your trial
 otherRequirements:
   - Next.js and the Auth0 Next.js SDK
+  - Google social connection with Token Vault enabled (Google Calendar scope)
 talkTrack:
-  - This is the teaching grant, not a product. One button. One email. Tokens come back when they Accept.
+  - This is the teaching grant, not a product. One button. One email. When they Accept, Token Vault writes the event to Google Calendar.
   - login_hint is iss_sub, not a raw email. binding_message is required, 64 characters, no spaces.
   - Send Hero Shield after this if they need to see CIBA in a room with a board and a calendar.
 seenAt: []
 seeAlso:
   - hero-shield
-architecture: docs/architecture.png
+architecture: docs/architecture.svg
 stack:
   - Next.js
   - Auth0
+  - Token Vault
+  - Google Calendar
 ---
 
 ## experience
 
 Learning demo, not a product. You log in, type a binding message, click one button. The app `POST`s `/bc-authorize`. Auth0 emails the authorizing user. They Accept. The app polls `/oauth/token` with the CIBA grant until tokens return.
 
-Use this when someone says “show me CIBA” and you do not want to stand up insurance, calendars, or a live board.
+Use this when someone says “show me CIBA” and you do not want to stand up insurance, an AI agent, or a live board. The approved draft becomes one event on your Google Calendar through Token Vault.
 
 ## setup
 
